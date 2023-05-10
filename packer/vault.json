@@ -1,0 +1,20 @@
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "prj-d-devops",
+      "source_image_family": "ubuntu-2304-amd64",
+      "ssh_username": "packer",
+      "zone": "asia-northeast3-a",
+      "image_name": "vault-v1",
+      "image_family": "vault"
+    }
+
+  ],
+  "provisioners":[
+    {
+      "type": "shell",
+      "script": "scripts/install_vault.sh"
+    }
+  ]
+}
