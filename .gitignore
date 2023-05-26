@@ -1,5 +1,4 @@
 .idea
-*secret*
 .DS_Store
 
 # Local .terraform directories

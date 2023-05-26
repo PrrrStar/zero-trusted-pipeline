@@ -1,0 +1,12 @@
+{{- if .Values.configmap.enabled | default false }}
+apiVersion: v1
+data:
+  {{ .Values.configmap.file }}: |
+    {{- include "configmap.data" . | nindent 4 }}
+kind: ConfigMap
+metadata:
+  name: {{ template "configmap.name" . }}
+  labels:
+  {{- include "common.labels" . | indent 4 }}
+  namespace: {{ template "namespace" . }}
+{{- end }}

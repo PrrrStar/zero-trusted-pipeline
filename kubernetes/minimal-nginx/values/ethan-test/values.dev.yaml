@@ -1,0 +1,31 @@
+name: minimal-nginx-ethan-test
+env: dev
+version: stable
+
+react:
+  env:
+    REACT_APP_ENV: dev
+    REACT_APP_DD_ENV: minimal-nginx
+
+resources:
+  limits:
+    memory: 100Mi
+  requests:
+    memory: 10Mi
+    cpu: 10m
+
+nodeSelector:
+  env: d
+  type: n2-standard-4
+  domain: face
+
+service:
+  type: LoadBalancer
+  targetPort: 8080
+  port: 80
+
+configmap:
+  enabled: true
+  file: nginx.conf
+  mountPath: /etc/nginx/nginx.conf
+  readOnly: true

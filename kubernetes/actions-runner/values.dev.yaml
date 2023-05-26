@@ -1,0 +1,33 @@
+docker:
+  image:
+    tag: "v1.0.0"
+
+resources:
+  requests:
+    memory: 4Gi
+    cpu: 2
+
+replicas: 1
+
+env:
+  github:
+    org: "HAECHI-LABS"
+    runner:
+      group: "Default"
+      label: "face"
+
+nodeSelector:
+  domain: "ops"
+  env: "d"
+  type: "n2-standard-4"
+
+storage:
+  buildData:
+    size: 100Gi
+  dockerContext:
+    size: 100Gi
+
+datadog:
+  enabled: false
+  apmEnabled: false
+  profilerEnabled: false

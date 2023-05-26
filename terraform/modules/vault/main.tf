@@ -9,7 +9,6 @@ data "template_file" "vault_config" {
   }
 }
 
-
 data "template_file" "start_secondary_vault" {
   template = file("${path.module}/templates/run_secondary_vault.sh.tpl")
   vars = {
@@ -41,7 +40,8 @@ resource "google_compute_instance" "vault_primary_server" {
   metadata_startup_script = data.template_file.start_primary_vault.rendered
 
   network_interface {
-    network = var.network
+    network    = var.vpc_name
+    subnetwork = var.subnet_name
     access_config {
 
     }
@@ -72,7 +72,8 @@ resource "google_compute_instance" "vault_secondary_server" {
   metadata_startup_script = data.template_file.start_secondary_vault.rendered
 
   network_interface {
-    network = var.network
+    network    = var.vpc_name
+    subnetwork = var.subnet_name
     access_config {
 
     }

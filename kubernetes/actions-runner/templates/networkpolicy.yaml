@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ template "namespace" . }}
+spec:
+  podSelector:
+    matchLabels:
+  {{- include "common.labels" . | indent 6 }}
+  policyTypes:
+    - Ingress
+    - Egress
+  # 모든 ingress 트래픽은 차단합니다.
+  egress:
+    - {} # 모든 egress 트래픽은 허용합니다.

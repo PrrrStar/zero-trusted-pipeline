@@ -30,7 +30,11 @@ variable "image_family" {
   type = string
 }
 
-variable "network" {
+variable "vpc_name" {
+  type = string
+}
+
+variable "subnet_name" {
   type = string
 }
 

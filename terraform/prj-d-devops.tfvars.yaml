@@ -1,0 +1,46 @@
+# GLOBAL
+domain: "devops"
+env: "d"
+region: "asia-northeast3"
+identifier: "230526"
+
+vpc:
+  name: "main"
+  subnet:
+    - name: "public"
+      primary_ip_range: "10.10.0.0/24"
+      secondary_ip_pod_range: "10.11.0.0/16"
+      secondary_ip_svc_range: "10.12.0.0/20"
+      region: "asia-northeast1"
+    - name: "private"
+      primary_ip_range: "10.100.0.0/24"
+      secondary_ip_pod_range: "10.101.0.0/16"
+      secondary_ip_svc_range: "10.102.0.0/20"
+      region: "asia-northeast3"
+
+vault:
+  machine_type: "n1-standard-1"
+  num_instances: 2
+  zone: "asia-northeast3-a"
+  image_project: "prj-d-devops"
+  image_family: "vault"
+  tag: "vault"
+  source_ip_range: "0.0.0.0/0"
+  storage_region: "asia-northeast2"
+  storage_ha_enabled: "true"
+  ui_enabled: "true"
+
+bastion:
+  vpc_name: "public"
+  region: "asia-northeast1"
+
+gke:
+  - cluster_name: "main"
+    cluster_version: "1.26.3-gke.400"
+    cluster_zone: "asia-northeast3-a"
+    nodepool:
+      - machine_type: "n2-standard-2"
+        size: 1
+        spot: false
+        auto_repair: true
+        auto_upgrade: true

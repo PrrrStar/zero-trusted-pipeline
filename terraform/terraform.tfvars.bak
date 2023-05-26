@@ -1,6 +1,8 @@
 # Provider Variables
 project_id = "prj-d-devops"
 region     = "asia-northeast3"
+env        = "d"
+domain     = "devops"
 
 # Vault Module Variables
 machine_type  = "n1-standard-1"
