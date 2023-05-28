@@ -18,7 +18,7 @@ resources:
     cpu: 10m
 
 service:
-  type: LoadBalancer
+  type: L
   targetPort: 8080
   port: 80
 
