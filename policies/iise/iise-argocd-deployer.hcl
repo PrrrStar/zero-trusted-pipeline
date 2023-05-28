@@ -1,11 +1,3 @@
-path "kubernetes/+/dev/*" {
-  capabilities = ["read", "list"]
-}
-
-path "kubernetes/+/stage/*" {
-  capabilities = ["read", "list"]
-}
-
-path "kubernetes/+/prod/*" {
+path "kubernetes/+/iise/*" {
   capabilities = ["read", "list"]
 }

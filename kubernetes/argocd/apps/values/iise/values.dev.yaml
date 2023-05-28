@@ -17,3 +17,4 @@ applications:
     enabled: true
     chartPath: kubernetes/iise
     enableAutoSync: true
+    valueFilePath: values/nginx/values.dev.yaml
