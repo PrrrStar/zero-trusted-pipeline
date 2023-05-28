@@ -22,6 +22,7 @@ events {
   worker_connections  1024;
 }
 env FOO1;
+env FOO2;
 http {
   include mime.types;
   server {
