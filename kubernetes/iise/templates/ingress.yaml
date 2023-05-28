@@ -1,12 +1,3 @@
-apiVersion: networking.gke.io/v1
-kind: ManagedCertificate
-metadata:
-  name: crt-d-devops-iise
-  namespace: app
-spec:
-  domains:
-    - api.haechi.io
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -14,8 +5,6 @@ metadata:
   namespace: app
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "ing-d-devops-iise"
-    networking.gke.io/managed-certificates: crt-d-devops-iise
-    networking.gke.io/v1beta1.FrontendConfig: fcf-d-devops-iise
     spec.ingressClassName: "gce"
 spec:
   defaultBackend:
@@ -23,13 +12,3 @@ spec:
       name: iise-nginx
       port:
         number: 80
----
-apiVersion: networking.gke.io/v1beta1
-kind: FrontendConfig
-metadata:
-  name: fcf-d-devops-iise
-  namespace: ops
-spec:
-  redirectToHttps:
-    enabled: true
-    responseCodeName: MOVED_PERMANENTLY_DEFAULT
