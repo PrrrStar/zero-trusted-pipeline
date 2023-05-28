@@ -37,8 +37,7 @@ http {
     location / {
       set_by_lua $FOO1 'return os.getenv("FOO1")';
       set_by_lua $FOO2 'return os.getenv("FOO2")';
-      return 200 "{ \"jsonrpc\": \"2.0\", \"id\": \"1\", \"result\": {\"FOO1\": $FOO1, \"FOO2\": $FOO2}}";
-    }
+      return 200 FOO1:$FOO1\nFOO2:$FOO2;
       #root   /usr/share/nginx/html;
       #autoindex on;
       #try_files $uri $uri/ /index.html;
