@@ -1,0 +1,47 @@
+{{- range $name,$val := .Values.applications }}
+  {{- if $val.enabled }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: '{{ required "A valid project is required" $.Values.project }}-{{ $name }}'
+spec:
+  destination:
+    name: {{ $.Values.source.cluster }}
+    namespace: {{ $.Values.source.namespace }}
+  source:
+    path: {{ $val.chartPath }}
+    repoURL: {{ $.Values.source.repoURL }}
+    targetRevision: {{ $.Values.source.branch }}
+    {{- if $.Values.vault.enable }}
+    plugin:
+      name: argocd-vault-plugin-helm
+      env:
+        - name: HELM_RELEASE_NAME
+          value: {{ $name }}
+        - name: HELM_ARGS
+          {{- if $val.valueFilePath }}
+          value: "-n app -f {{ $val.valueFilePath }} {{ $val.chartRepo | default "."}}"
+          {{- else }}
+          value: "-n app -f values/{{ $name }}/values.{{ $.Values.project }}.yaml {{ $val.chartRepo | default "."}}"
+          {{- end }}
+    {{- else }}
+    helm:
+      releaseName: {{ $name }}
+      valueFiles:
+      {{- if $val.valueFilePath }}
+        - {{ $val.valueFilePath }}
+      {{- else }}
+        - values/{{ $name }}/values.{{ $.Values.project }}.yaml
+      {{- end }}
+    {{- end }}
+  project: {{ $.Values.project }}
+  syncPolicy:
+    syncOptions: []
+    {{- if $val.enableAutoSync | default false }}
+    automated:
+      prune: true
+      selfHeal: true
+    {{- end }}
+  {{- end }}
+{{- end }}

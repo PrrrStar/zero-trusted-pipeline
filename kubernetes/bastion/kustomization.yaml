@@ -1,0 +1,9 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+namespace: ops
+configMapGenerator:
+  - name: nginx-conf
+    files:
+      - nginx.conf
+      - mime.types

@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ template "namespace" . }}
+  labels:
+  {{- include "common.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  serviceName: {{ .Chart.Name }}
+  selector:
+    matchLabels:
+    {{- include "common.labels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+      {{- include "common.labels" . | indent 8 }}
+    spec:
+      containers:
+        - name: core
+          image: "haechi/face-actions-runner:{{ .Values.docker.image.tag }}"
+          imagePullPolicy: Always
+          command:
+            - "bash"
+            - "-c"
+          args:
+            - "/usr/src/actions-runner/config/runner-starter.sh"
+          env:
+            # docker socket 을 공유할 docker-daemon 컨테이너의 주소입니다.
+            - name: DOCKER_HOST
+              value: tcp://localhost:2376
+            # HAECHI Github Organization 을 설정합니다.
+            - name: HAECHI_GITHUB_ORG
+              value: {{ .Values.env.github.org }}
+            - name: HAECHI_GITHUB_PAT
+              valueFrom:
+                secretKeyRef:
+                  name: haechi-github-pat
+                  key: .githubpat
+            # Self-hosted Runner 가 속할 Group 입니다.
+            - name: RUNNER_GROUP
+              value: {{ .Values.env.github.runner.group }}
+            # Self-hosted Runner 의 라벨입니다.
+            - name: RUNNER_LABEL
+              value: {{ .Values.env.github.runner.label }}
+          # docker-daemon 컨테이너의 도커 데몬이 뜨는 것을 기다립니다
+          readinessProbe:
+            httpGet:
+              port: 2376
+              path: /containers/json
+          volumeMounts:
+            - name: data
+              mountPath: /usr/src/actions-runner/_work
+            - name: config
+              mountPath: /usr/src/actions-runner/config
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        - name: docker-daemon
+          image: docker:19.03-dind
+          command:
+            - "dockerd"
+          args:
+            - "--host=unix:///var/run/docker.sock"
+            - "--host=tcp://0.0.0.0:2376"
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: docker-daemon-storage
+              mountPath: /var/lib/docker
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      terminationGracePeriodSeconds: 60
+      imagePullSecrets:
+        - name: dockerconfig-regcred
+      volumes:
+        - name: config
+          configMap:
+            name: runner-starter
+            defaultMode: 0550
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        namespace: {{ .Release.Namespace }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.storage.buildData.size }}
+    - metadata:
+        name: docker-daemon-storage
+        namespace: {{ .Release.Namespace }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.storage.dockerContext.size }}

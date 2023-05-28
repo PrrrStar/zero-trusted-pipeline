@@ -1,0 +1,19 @@
+project: dev
+
+vault:
+  enable: true
+
+source:
+  cluster: cls-d-devops-230526
+  branch: dev
+  namespace: app
+  repoURL: https://github.com/PrrrStar/seoultech-capston-design
+  helm:
+    valueFiles:
+      - values.dev.yaml
+
+applications:
+  iise-nginx:
+    enabled: true
+    chartPath: kubernetes/iise
+    enableAutoSync: true

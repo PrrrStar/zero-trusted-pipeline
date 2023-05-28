@@ -1,0 +1,4 @@
+apiVersion: v1
+name: iise-nginx
+description: Test
+version: 0.0.1

@@ -1,0 +1,5 @@
+namespace: argocd
+resources:
+  - deployment.yaml
+  - service.yaml
+  - backendconfig.yaml
