@@ -42,13 +42,10 @@ spec:
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
+            {{- range $val := .Values.vault.secrets }}
+            {{- if $val.name }}
             - secretRef:
-                name: minimal-nginx-secret
-          env:
-            {{- if .Values.react.env }}
-            {{- range $key,$val := .Values.react.env }}
-            - name: {{ $key }}
-              value: {{ $val | quote }}
+                name: {{ $val.name }}-secret
             {{- end }}
             {{- end }}
           volumeMounts:

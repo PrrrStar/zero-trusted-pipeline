@@ -1,11 +1,14 @@
-name: minimal-nginx-ethan-test
+name: iise-nginx
 env: dev
 version: stable
 
-react:
-  env:
-    REACT_APP_ENV: dev
-    REACT_APP_DD_ENV: minimal-nginx
+vault:
+  env: dev
+  secrets:
+    - name: iise
+      kv:
+        FOO1: "FOO1"
+        FOO2: "FOO2"
 
 resources:
   limits:
@@ -13,11 +16,6 @@ resources:
   requests:
     memory: 10Mi
     cpu: 10m
-
-nodeSelector:
-  env: d
-  type: n2-standard-4
-  domain: face
 
 service:
   type: LoadBalancer

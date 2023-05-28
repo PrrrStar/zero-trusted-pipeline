@@ -21,8 +21,7 @@ worker_processes  2;
 events {
   worker_connections  1024;
 }
-env ARGOCD;
-env ETHAN;
+env FOO1;
 http {
   include mime.types;
   server {
@@ -35,9 +34,8 @@ http {
     error_log /var/log/nginx/error.log;
 
     location / {
-      set_by_lua $ARGOCD 'return os.getenv("ARGOCD")';
-      set_by_lua $ETHAN 'return os.getenv("ETHAN")';
-      return 200 $ETHAN;
+      set_by_lua $FOO1 'return os.getenv("FOO1")';
+      return 200 $FOO1\n$FOO2;
       #root   /usr/share/nginx/html;
       #autoindex on;
       #try_files $uri $uri/ /index.html;
