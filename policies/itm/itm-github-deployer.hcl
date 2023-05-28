@@ -1,6 +1,3 @@
-path "github/+/itm-backend" {
-  capabilities = ["read", "list"]
-}
-path "github/+/itm-frontend" {
+path "github/+/*" {
   capabilities = ["read", "list"]
 }

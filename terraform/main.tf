@@ -12,6 +12,7 @@ locals {
 
   vault   = local.config["vault"]
   bastion = local.config["bastion"]
+  gke     = local.config["gke"]
 }
 
 module "vpc" {
@@ -40,4 +41,39 @@ module "sbn" {
 
 resource "random_id" "instance_id" {
   byte_length = 6
+}
+
+data "google_compute_network" "main" {
+  name    = "vpc-${local.env}-${local.domain}-${local.vpc["name"]}"
+  project = local.project
+}
+
+data "google_compute_subnetwork" "public" {
+  name    = "sbn-${local.env}-${local.domain}-public"
+  project = local.project
+  region  = "asia-northeast1"
+}
+
+data "google_compute_subnetwork" "private" {
+  name    = "sbn-${local.env}-${local.domain}-private"
+  project = local.project
+  region  = "asia-northeast3"
+}
+
+module "vault_server" {
+  source             = "./modules/vault"
+  project_id         = local.project
+  suffix             = random_id.instance_id.hex
+  machine_type       = local.vault["machine_type"]
+  num_instances      = local.vault["num_instances"]
+  zone               = local.vault["zone"]
+  image_project      = local.vault["image_project"]
+  image_family       = local.vault["image_family"]
+  vpc_name           = data.google_compute_network.main.name
+  subnet_name        = data.google_compute_subnetwork.private.name
+  tag                = local.vault["tag"]
+  source_ip_range    = local.vault["source_ip_range"]
+  storage_region     = local.vault["storage_region"]
+  storage_ha_enabled = local.vault["storage_ha_enabled"]
+  ui_enabled         = local.vault["ui_enabled"]
 }

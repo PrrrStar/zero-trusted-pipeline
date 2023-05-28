@@ -1,0 +1,19 @@
+project: dev
+
+vault:
+  enable: true
+
+source:
+  cluster: kc-d-henesis-230419
+  branch: main
+  namespace: app
+  repoURL: https://github.com/HAECHI-LABS/henesis-manifests
+  helm:
+    valueFiles:
+      - values.dev.yaml
+
+applications:
+  wallet:
+    enabled: true
+    chartPath: charts/henesis
+    enableAutoSync: true

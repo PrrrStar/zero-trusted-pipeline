@@ -10,10 +10,9 @@ CURRENT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 # default options:
 VAULT_ADDR=""
 VAULT_TOKEN=""
-VAULT_NAMESPACE=""
 
 # directory containing policies
-POLICIES_DIR="../policies"
+POLICIES_DIR="../"
 
 # get options:
 while (("$#")); do
@@ -39,20 +38,9 @@ while (("$#")); do
       exit 1
     fi
     ;;
-  -n | --namespace)
-    if [ -n "$2" ]; then
-      VAULT_NAMESPACE=$2
-      export VAULT_NAMESPACE="admin/${VAULT_NAMESPACE}"
-      shift 2
-    else
-      echo "Error: Argument for $1 is missing" >&2
-      exit 1
-    fi
-    ;;
   -h | --help)
     echo "Usage:  $0"
     echo "        -a | --addr       %  (set VAULT_ADDR of ...)" >&2
-    echo "        -n | --namespace  %  (set VAULT_NAMESPACE of ...)" >&2
     echo "        -t | --token      %  (set VAULT_TOKEN of ...)" >&2
     exit 0
     ;;
@@ -76,15 +64,8 @@ if [ -z "$VAULT_TOKEN" ]; then
   exit 1
 fi
 
-if [ -z "$VAULT_NAMESPACE" ]; then
-  echo "Error: VAULT_TOKEN is not set. Use $0 -h (or --help) for help." >&2
-  source $0 -h
-  exit 1
-fi
-
 
 echo "=====INIT VAULT====="
-echo " - VAULT_NAMESPACE: ${VAULT_NAMESPACE}"
 echo " - VAULT_ADDR: ${VAULT_ADDR}"
 echo " - VAULT_TOKEN: ${masked_token}"
 
@@ -99,13 +80,10 @@ write_policy() {
 # recursive function to traverse the policies directory and write the policies
 traverse_policies_dir() {
   local dir="$1"
-  local target_ns="$(basename "$VAULT_NAMESPACE")"
   for file in "${dir}"/*; do
     local source_ns="${file##*/}"
     if [[ -d "${file}" ]]; then
-      if [[ -z "${VAULT_NAMESPACE}" || "${source_ns}" == "${target_ns}" ]]; then
-        traverse_policies_dir "${file}" "${file##*/}"
-      fi
+      traverse_policies_dir "${file}" "${file##*/}"
     elif [[ -f "${file}" && "${file##*.}" == "hcl" ]]; then
       local policy="${file##*/}"
       policy="${policy%.*}"

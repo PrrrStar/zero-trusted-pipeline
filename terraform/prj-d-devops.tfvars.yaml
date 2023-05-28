@@ -36,11 +36,12 @@ bastion:
 
 gke:
   - cluster_name: "main"
-    cluster_version: "1.26.3-gke.400"
-    cluster_zone: "asia-northeast3-a"
+    cluster_version: "1.27.1-gke.400"
+    cluster_region: "asia-northeast1"
+    network: "public"
     nodepool:
       - machine_type: "n2-standard-2"
         size: 1
-        spot: false
+        spot: true
         auto_repair: true
         auto_upgrade: true

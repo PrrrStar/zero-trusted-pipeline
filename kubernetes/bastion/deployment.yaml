@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bastion
+  namespace: ops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bastion
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: bastion
+    spec:
+      containers:
+        - name: nginx
+          image: asia-northeast3-docker.pkg.dev/prj-d-devops/devops-infra/nginx:v1.22.1
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 80
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - "/bin/sh"
+                  - '-c'
+                  - "sleep 5 && /usr/sbin/nginx -s quit"
+          volumeMounts:
+            - mountPath: /etc/nginx # mount nginx-conf volumn to /etc/nginx
+              readOnly: true
+              name: nginx-conf
+            - mountPath: /var/log/nginx/mtail
+              name: log
+        - name: exporter
+          image: quay.io/rebuy/nginx-exporter:v1.1.0
+          ports:
+            - containerPort: 9397
+          env:
+            - name: NGINX_ACCESS_LOGS
+              value: /var/log/nginx/mtail/access.log
+            - name: NGINX_STATUS_URI
+              value: http://localhost/stub_status
+          volumeMounts:
+            - name: log
+              mountPath: /var/log/nginx/mtail
+      terminationGracePeriodSeconds: 120
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf # place ConfigMap `nginx-conf` on /etc/nginx
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+              - key: mime.types
+                path: mime.types
+        - name: log
+          emptyDir: { }

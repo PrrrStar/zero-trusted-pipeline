@@ -1,11 +1,11 @@
-path "gke/dev/+/*" {
+path "kubernetes/+/dev/*" {
   capabilities = ["read", "list"]
 }
 
-path "gke/stage/+/*" {
+path "kubernetes/+/stage/*" {
   capabilities = ["read", "list"]
 }
 
-path "gke/prod/+/*" {
+path "kubernetes/+/prod/*" {
   capabilities = ["read", "list"]
 }
