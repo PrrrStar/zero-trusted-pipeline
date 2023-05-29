@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ing-d-devops-iise
+  namespace: app
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "ing-d-devops-iise"
+    spec.ingressClassName: "gce"
+spec:
+  defaultBackend:
+    service:
+      name: iise-nginx
+      port:
+        number: 80

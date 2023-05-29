@@ -22,6 +22,7 @@ events {
   worker_connections  1024;
 }
 env FOO1;
+env FOO2;
 http {
   include mime.types;
   server {
@@ -35,7 +36,8 @@ http {
 
     location / {
       set_by_lua $FOO1 'return os.getenv("FOO1")';
-      return 200 $FOO1\n$FOO2;
+      set_by_lua $FOO2 'return os.getenv("FOO2")';
+      return 200 FOO1:$FOO1\nFOO2:$FOO2;
       #root   /usr/share/nginx/html;
       #autoindex on;
       #try_files $uri $uri/ /index.html;

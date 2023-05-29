@@ -7,7 +7,7 @@ source:
   cluster: cls-d-devops-230526
   branch: dev
   namespace: app
-  repoURL: https://github.com/PrrrStar/seoultech-capston-design
+  repoURL: https://github.com/PrrrStar/zero-trusted-pipeline
   helm:
     valueFiles:
       - values.dev.yaml
@@ -17,3 +17,4 @@ applications:
     enabled: true
     chartPath: kubernetes/iise
     enableAutoSync: true
+    valueFilePath: values/nginx/values.dev.yaml
