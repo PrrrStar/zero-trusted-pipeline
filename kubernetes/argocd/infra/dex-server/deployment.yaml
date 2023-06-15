@@ -28,7 +28,7 @@ spec:
         - command:
             - /shared/argocd-dex
             - rundex
-          image: ghcr.io/dexidp/dex:v2.30.2
+          image: ghcr.io/dexidp/dex:v2.36.0-alpine
           imagePullPolicy: Always
           name: dex
           ports:
@@ -50,7 +50,7 @@ spec:
             - -n
             - /usr/local/bin/argocd
             - /shared/argocd-dex
-          image: quay.io/argoproj/argocd:v2.5.15
+          image: quay.io/argoproj/argocd:v2.7.4
           imagePullPolicy: Always
           name: copyutil
           volumeMounts:
