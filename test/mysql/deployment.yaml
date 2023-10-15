@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-ethan
+  namespace: app
+  labels:
+   app: mysql-ethan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-ethan
+  template:
+    metadata:
+      labels:
+        app: mysql-ethan
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:5.6
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: ethan-secret
+                  key: db.name
+            - name: MYSQL_ROOT_HOST
+              value: "%"
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ethan-secret
+                  key: db.rootpassword
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ethan-secret
+                  key: db.username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ethan-secret
+                  key: db.password
+          args:
+            - "--max-allowed-packet=500M"
+          ports:
+            - containerPort: 3306
+              name: mysql-ethan
+          volumeMounts:
+            - name: pv-mysql-ethan
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: pv-mysql-ethan
+          persistentVolumeClaim:
+            claimName: pvc-mysql-ethan
+      terminationGracePeriodSeconds: 30

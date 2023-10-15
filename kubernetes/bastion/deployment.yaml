@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bastion
-  namespace: ops
 spec:
   replicas: 1
   selector:
@@ -15,7 +14,8 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: asia-northeast3-docker.pkg.dev/prj-d-devops/devops-infra/nginx:v1.22.1
+          image: asia-northeast3-docker.pkg.dev/prj-d-devops-402107/devops-infra/nginx:v1.25.2-amd64
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           readinessProbe:
@@ -33,20 +33,6 @@ spec:
             - mountPath: /etc/nginx # mount nginx-conf volumn to /etc/nginx
               readOnly: true
               name: nginx-conf
-            - mountPath: /var/log/nginx/mtail
-              name: log
-        - name: exporter
-          image: quay.io/rebuy/nginx-exporter:v1.1.0
-          ports:
-            - containerPort: 9397
-          env:
-            - name: NGINX_ACCESS_LOGS
-              value: /var/log/nginx/mtail/access.log
-            - name: NGINX_STATUS_URI
-              value: http://localhost/stub_status
-          volumeMounts:
-            - name: log
-              mountPath: /var/log/nginx/mtail
       terminationGracePeriodSeconds: 120
       volumes:
         - name: nginx-conf

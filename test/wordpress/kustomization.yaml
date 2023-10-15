@@ -1,0 +1,6 @@
+namespace: app
+resources:
+  - deployment.yaml
+  - service.yaml
+  - pvc.yaml
+  - secrets.yaml

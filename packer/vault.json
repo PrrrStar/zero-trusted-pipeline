@@ -2,7 +2,8 @@
   "builders": [
     {
       "type": "googlecompute",
-      "project_id": "prj-d-devops",
+      "project_id": "prj-d-devops-402107",
+      "account_file": "../terraform/secrets.prj-d-devops-402107.json",
       "source_image_family": "ubuntu-2304-amd64",
       "ssh_username": "packer",
       "zone": "asia-northeast3-a",

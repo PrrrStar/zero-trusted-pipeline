@@ -6,6 +6,7 @@
 *.terraform*
 .terraform
 
+
 # .tfstate files
 *.tfstate
 *.tfstate.*
@@ -40,3 +41,5 @@ override.tf.json
 terraform.rc
 
 **argocd-secret**
+
+*secrets*

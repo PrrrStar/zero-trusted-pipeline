@@ -3,6 +3,11 @@ variable "project" {
   description = "Project 이름"
 }
 
+variable "name" {
+  type        = string
+  description = "Cluster 이름"
+}
+
 variable "env" {
   type        = string
   description = "Project environment code"
@@ -43,6 +48,6 @@ variable "master_version" {
   description = "GKE 클러스터 master version"
 }
 
-variable "node_config" {
+variable "nodepool" {
   type = list(any)
 }

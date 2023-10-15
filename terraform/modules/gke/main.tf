@@ -10,7 +10,7 @@ data "google_compute_subnetwork" "main" {
 }
 
 resource "google_container_cluster" "main" {
-  name               = "cls-${var.env}-${var.domain}-${var.identifier}"
+  name               = var.name
   location           = var.zone
   project            = var.project
   min_master_version = var.master_version
@@ -54,13 +54,13 @@ resource "google_container_cluster" "main" {
   monitoring_service = "monitoring.googleapis.com/kubernetes"
 
   release_channel {
-    channel = "RAPID"
+    channel = "UNSPECIFIED"
   }
 }
 
 resource "google_container_node_pool" "main" {
-  for_each   = { for np in var.node_config : np["machine_type"] => np }
-  name       = "np-${var.env}-${var.domain}-${each.value["machine_type"]}"
+  for_each   = { for np in var.nodepool : np["name"] => np }
+  name       = each.value["name"]
   cluster    = google_container_cluster.main.name
   location   = var.zone
   node_count = each.value["size"]
@@ -85,10 +85,10 @@ resource "google_container_node_pool" "main" {
 
     spot         = each.value["spot"]
     disk_type    = "pd-balanced"
-    disk_size_gb = "100"
-
+    disk_size_gb = "20"
 
     labels = {
+      app      = each.value["name"]
       project  = var.project
       domain   = var.domain
       env      = var.env
