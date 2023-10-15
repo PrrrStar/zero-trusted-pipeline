@@ -2,16 +2,14 @@ apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
   name: crt-d-devops-bastion
-  namespace: ops
 spec:
   domains:
-    - vault.haechi.io
+    - vault.henesis.io
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ing-d-devops-bastion
-  namespace: ops
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "ing-d-devops-bastion"
     networking.gke.io/managed-certificates: crt-d-devops-bastion
@@ -28,7 +26,6 @@ apiVersion: networking.gke.io/v1beta1
 kind: FrontendConfig
 metadata:
   name: fcf-d-devops-bastion
-  namespace: ops
 spec:
   redirectToHttps:
     enabled: true

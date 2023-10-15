@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-ethan
+  namespace: app
+  labels:
+    app: wordpress-ethan
+  annotations:
+    cloud.google.com/backend-config: '{"ports": {"8080":"backendconfig-ethan"}}'
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      protocol: TCP
+      name: http
+      targetPort: 80
+    - port: 443
+      protocol: TCP
+      name: https
+      targetPort: 80
+  selector:
+    app: wordpress-ethan
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: backendconfig-ethan
+spec:
+  timeoutSec: 45
+  connectionDraining:
+    drainingTimeoutSec: 0
+  healthCheck:
+    checkIntervalSec: 5
+    timeoutSec: 5
+    healthyThreshold: 1
+    unhealthyThreshold: 2
+    type: HTTP
+    requestPath: /wp-includes/images/blank.gif
+    port: 8080

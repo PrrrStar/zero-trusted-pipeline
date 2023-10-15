@@ -1,12 +1,6 @@
 variable "project" {
   type        = string
   description = "Project 이름"
-  validation {
-    condition = contains([
-      "prj-d-devops",
-    ], var.project)
-    error_message = "Project 이름이 올바르지 않습니다."
-  }
 }
 
 variable "env" {

@@ -1,5 +1,5 @@
 resource "google_compute_subnetwork" "main" {
-  name          = "sbn-${var.env}-${var.domain}-${var.name}"
+  name          = var.name
   project       = var.project
   ip_cidr_range = var.subnet_ip_range
   network       = var.vpc_self_link

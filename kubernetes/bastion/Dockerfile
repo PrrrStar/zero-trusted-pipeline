@@ -1,8 +1,8 @@
-ARG NGINX_VERSION=1.22.1
+ARG NGINX_VERSION=1.25.2
 
-FROM nginx:$NGINX_VERSION-alpine
+FROM --platform=linux/amd64 nginx:$NGINX_VERSION-alpine
 
-ARG NGINX_VERSION=1.22.1
+ARG NGINX_VERSION=1.25.2
 ARG HEADERS_MORE_VERSION=v0.34
 
 RUN apk --update --no-cache add \
@@ -30,7 +30,7 @@ RUN cd /opt \
     && ./configure --with-compat --add-dynamic-module=/opt/headers-more-nginx-module \
     && make modules
 
-FROM nginx:$NGINX_VERSION-alpine
+FROM --platform=linux/amd64 nginx:$NGINX_VERSION-alpine
 
 COPY --from=0 /opt/nginx/objs/ngx_http_headers_more_filter_module.so /usr/lib/nginx/modules
 

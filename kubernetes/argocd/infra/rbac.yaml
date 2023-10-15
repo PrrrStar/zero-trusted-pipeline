@@ -17,6 +17,6 @@ data:
     g, role:engineer, role:readonly
     p, role:engineer, applications, *, */*, allow
 
-    g, ethan@haechi.io, role:admin
+    g, jmeef0802@gmail.com, role:admin
 
   scopes: "[email, group]"

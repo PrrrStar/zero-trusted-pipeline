@@ -14,7 +14,7 @@ resource "google_artifact_registry_repository_iam_binding" "bindings" {
   repository = google_artifact_registry_repository.registry.name
   role       = "roles/artifactregistry.writer"
   members = [
-    "user:ethan@haechi.io"
+    "user:jmeef0802@gmail.com"
   ]
 }
 
@@ -23,5 +23,5 @@ resource "google_artifact_registry_repository_iam_member" "bindings_member" {
   location   = google_artifact_registry_repository.registry.location
   repository = google_artifact_registry_repository.registry.name
   role       = "roles/artifactregistry.writer"
-  member     = "user:ethan@haechi.io"
+  member     = "user:jmeef0802@gmail.com"
 }

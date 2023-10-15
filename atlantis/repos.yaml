@@ -1,0 +1,10 @@
+repos:
+- id: /.*/ 
+  # The default will be approved.
+  apply_requirements: [approved]
+  
+  # But all repos can set their own using atlantis.yaml
+  allowed_overrides: [apply_requirements, workflow]
+
+  # Allow repos to define their own workflows.
+  allow_custom_workflows: true

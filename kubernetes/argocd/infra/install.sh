@@ -24,7 +24,7 @@ if [ "$(dirname $0)" != "." ]; then
   exit 1
 fi
 
-gcloud container clusters get-credentials cls-d-devops-230526 --region asia-northeast3-a --project prj-p-devops
+gcloud container clusters get-credentials kc-d-devops-main --region asia-northeast1-a --project prj-d-devops-402107
 kubectl create namespace argocd
 kubectl config set-context --current --namespace argocd
 

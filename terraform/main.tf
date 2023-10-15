@@ -43,23 +43,6 @@ resource "random_id" "instance_id" {
   byte_length = 6
 }
 
-data "google_compute_network" "main" {
-  name    = "vpc-${local.env}-${local.domain}-${local.vpc["name"]}"
-  project = local.project
-}
-
-data "google_compute_subnetwork" "public" {
-  name    = "sbn-${local.env}-${local.domain}-public"
-  project = local.project
-  region  = "asia-northeast1"
-}
-
-data "google_compute_subnetwork" "private" {
-  name    = "sbn-${local.env}-${local.domain}-private"
-  project = local.project
-  region  = "asia-northeast3"
-}
-
 module "vault_server" {
   source             = "./modules/vault"
   project_id         = local.project
@@ -69,11 +52,32 @@ module "vault_server" {
   zone               = local.vault["zone"]
   image_project      = local.vault["image_project"]
   image_family       = local.vault["image_family"]
-  vpc_name           = data.google_compute_network.main.name
-  subnet_name        = data.google_compute_subnetwork.private.name
+  vpc_name           = "vpc-d-devops-main"
+  subnet_name        = "sbn-d-devops-private"
   tag                = local.vault["tag"]
   source_ip_range    = local.vault["source_ip_range"]
   storage_region     = local.vault["storage_region"]
   storage_ha_enabled = local.vault["storage_ha_enabled"]
   ui_enabled         = local.vault["ui_enabled"]
+
+  depends_on = [module.sbn]
+}
+
+module "gke" {
+  for_each = { for gke in local.gke : gke["name"] => gke }
+
+  source         = "./modules/gke"
+  domain         = local.domain
+  env            = local.env
+  project        = local.project
+  identifier     = local.identifier
+  vpc_name       = each.value["vpc_name"]
+  subnet_name    = each.value["sbn_name"]
+  subnet_region  = each.value["sbn_region"]
+  name           = each.value["name"]
+  master_version = each.value["version"]
+  zone           = "${each.value["sbn_region"]}-a"
+  nodepool       = each.value["nodepool"]
+
+  depends_on = [module.sbn]
 }

@@ -8,16 +8,16 @@ logger() {
 
 logger 'Starting Vault installation'
 export VAULT_URL="https://releases.hashicorp.com/vault"
-export VAULT_VERSION="1.13.2"
+export VAULT_VERSION="1.15.0"
 
 
 logger 'Updating repo'
-sudo apt-get -y update
-sudo apt-get -y upgrade
+sudo apt -y update
+sudo apt -y upgrade
 
 logger 'Installing utilities'
-sudo apt-get -y install zip unzip
-sudo apt-get -y install dialog apt-utils
+sudo apt -y install zip unzip
+sudo apt -y install dialog apt-utils
 
 logger 'Downloading Vault binary'
 curl --silent --remote-name "${VAULT_URL}/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip"

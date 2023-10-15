@@ -42,9 +42,6 @@ resource "google_compute_instance" "vault_primary_server" {
   network_interface {
     network    = var.vpc_name
     subnetwork = var.subnet_name
-    access_config {
-
-    }
   }
 
   tags = ["${var.tag}-${var.suffix}"]
@@ -74,9 +71,6 @@ resource "google_compute_instance" "vault_secondary_server" {
   network_interface {
     network    = var.vpc_name
     subnetwork = var.subnet_name
-    access_config {
-
-    }
   }
 
   tags = ["${var.tag}-${var.suffix}"]
