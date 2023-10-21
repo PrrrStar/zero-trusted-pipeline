@@ -34,8 +34,11 @@ jobs:
             github/data/zero-trusted-pipeline GCP_WIP_PROVIDER_ID | GCP_WIP_PROVIDER_ID ;
             github/data/zero-trusted-pipeline GCP_GAR_ADDRESS | GCP_GAR_ADDRESS ;
 
-      - name: Checkout the repository
-        uses: actions/checkout@v3
+      - name: Checkout zero-trusted-pipeline
+        uses: actions/checkout@v4
+        with:
+          token: ${{ env.GITHUB_PAT }}
+          path: zero-trusted-pipeline
 
       - name: Validate version format
         id: check_version
