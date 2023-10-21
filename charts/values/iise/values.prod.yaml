@@ -1,9 +1,9 @@
 name: iise-nginx
-env: stg
+env: prod
 version: stable
 
 vault:
-  env: stg
+  env: prod
   secrets:
     - name: iise
       kv:
