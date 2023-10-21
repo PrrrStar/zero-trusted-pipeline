@@ -1,8 +1,8 @@
 SeoulTech-Capston-Design
 ====
-## Zero-Trusted Pipeline
-
-본 프로젝트에서는 제로트러스트 모델을 적용한 안전하고 효과적인 배포 파이프라인을 구축합니다.
+Zero-Trusted Pipeline
+--
+>본 프로젝트에서는 제로트러스트 모델을 적용한 안전하고 효과적인 배포 파이프라인을 구축합니다.
 Secret 통합 관리 시스템인 Vault 를 활용합니다.
 중앙 집중화를 통해 기업 보안을 달성하고 제품 전달 속도 및 Secret 관리 효율을 개선합니다.
 --
