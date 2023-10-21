@@ -2,7 +2,7 @@ ArgoCD
 ===
 ## Structure
 ```
-apps
+apps : ArgoCD Application 을 관리한다.
 ├── Chart.yaml
 ├── templates       # Application Template (CRD)
 ├── test            # Test Template
@@ -10,24 +10,24 @@ apps
     └── henesis     # 팀 별 Value File
 
 
-infra
-├── applicationset-controller           # 컨트롤러
-├── dex-server                          # 외부 인증
+infra : ArgoCD Infra 서비스를 관리한다.
+├── applicationset-controller           # Application Status Check 컨트롤러
+├── dex-server                          # Social Login 등 인증 관리 서버
 ├── metrics                             # Metric 서버
-├── notifications-controller-metrics    # Noti 서버
+├── notifications-controller-metrics    # Notification 서버
 ├── redis                                 
-├── repo-server                         # Repository 서버
-├── server                              # 실제 ArgoCD 서버
+├── repo-server                         # Repository 서버, 여기선 AVP 플러그인 활용
+├── server                              # ArgoCD 의 코어 서버
 |
 ├── README.md
-├── crd.yaml
-├── configmap.dev.yaml
-├── configmap.mainnet.yaml
-├── install.henesis.dev.sh
-├── networkpolicy.yaml
-├── rbac.dev.yaml
-├── argocd-secret.yaml
-└── role.yaml
+├── crd.yaml                      
+├── configmap.yaml                      # General Configmap 관리
+├── crd.yaml                            # ArgoCD 커스텀 리소스
+├── install.sh                          # 빠른 설치를 위한 커스텀 스크립트
+├── networkpolicy.yaml                  # 외/내부 통신 정책 설정
+├── rbac.yaml                           # 역할정 기반 접근제어 설
+├── argocd-secret.yaml                  # ArgoCD 관리에 필요한 민감정보
+└── role.yaml                           # Role 기반 Kubernetes 리소스 통신 제어 
 ```
 
 ## Deployment
@@ -40,10 +40,10 @@ infra
     
     apiVersion: v1
     data:
-      dex.google.clientId: ""
-      dex.google.clientSecret: ""
+      dex.google.clientId: ""     # OIDC Google 인증을 위함
+      dex.google.clientSecret: "" # OIDC Google 인증을 위함
     stringData:
-      webhook.github.secret: "aGVuZXNpcy1hcmdvY2Q=" # henesis-argocd
+      webhook.github.secret: ""   # Github webhook Push 트리거 통신을 위한 secret 
     kind: Secret
     metadata:
       labels:
@@ -55,12 +55,12 @@ infra
     ---
     apiVersion: v1
     data:
-      AVP_AUTH_TYPE: YXBwcm9sZQ== # approle
-      AVP_ROLE_ID: ""
-      AVP_SECRET_ID: ""
-      AVP_TYPE: dmF1bHQ= # vault
-      VAULT_ADDR: aHR0cHM6Ly9jbHMtbS1kZXZvcHMtdmF1bHQtcHVibGljLXZhdWx0LTY1NDNlZjM5LmE0MGE5MTJmLnoxLmhhc2hpY29ycC5jbG91ZDo4MjAwLw==
-      VAULT_NAMESPACE: "YWRtaW4vaGVuZXNpcw==" # admin/henesis
+      AVP_AUTH_TYPE: ""         # approle 기반 Vault 통신 
+      AVP_ROLE_ID: ""           # ArgoCD 에 맵핑할 역할
+      AVP_SECRET_ID: ""         # ArgoCD 에 맵핑할 역할의 Secret
+      AVP_TYPE: ""              # vault
+      VAULT_ADDR: ""            # "ArgoCD 와 Vault 통신을 위한 Vault endpoint"
+      VAULT_NAMESPACE: ""       # default : admin
     kind: Secret
     metadata:
       name: argocd-vault-plugin-credentials
@@ -70,7 +70,7 @@ infra
   - Secret Update
     ```bash
     # Cluster 권한 획득
-    gcloud container clusters get-credentials kc-p-devops-230508 --region asia-northeast3-a --project prj-p-devops
+    gcloud container clusters get-credentials kc-d-devops-main --region asia-northeast1-a --project prj-d-devops-402107
     
     # Apply
     kubectl apply -f {SECRET_FILE}.yaml -n argocd
