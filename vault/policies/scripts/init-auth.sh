@@ -126,7 +126,7 @@ vault write auth/oidc/role/operator - <<EOF
     "user_claim_json_pointer": "true",
     "bound_claims": {
       "email": [
-        "ethan@haechi.io"
+        "jmeef0802@gmail.com"
       ]
     },
     "policies": [
