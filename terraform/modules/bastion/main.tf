@@ -7,12 +7,11 @@ data "template_file" "init_bastion" {
 }
 
 resource "google_compute_instance" "main" {
-  name    = "vm-${var.env}-${var.domain}-${var.identifier}"
+  name    = var.name
   project = var.project
 
+  zone         = var.zone
   machine_type = var.machine_type
-
-  zone = var.zone
 
   boot_disk {
     initialize_params {
@@ -28,10 +27,7 @@ resource "google_compute_instance" "main" {
   network_interface {
     network    = var.vpc_name
     subnetwork = var.subnet_name
-    access_config {
-      nat_ip       = google_compute_address.main.address
-      network_tier = "PREMIUM"
-    }
+    network_ip = google_compute_address.main.address
   }
   shielded_instance_config {
     enable_integrity_monitoring = true

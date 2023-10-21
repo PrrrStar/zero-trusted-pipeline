@@ -1,0 +1,29 @@
+name: iise-nginx
+env: dev
+version: stable
+
+vault:
+  env: dev
+  secrets:
+    - name: iise
+      kv:
+        FOO1: "FOO1"
+        FOO2: "FOO2"
+
+resources:
+  limits:
+    memory: 100Mi
+  requests:
+    memory: 10Mi
+    cpu: 10m
+
+service:
+  type: NodePort
+  targetPort: 8080
+  port: 80
+
+configmap:
+  enabled: true
+  file: nginx.conf
+  mountPath: /etc/nginx/nginx.conf
+  readOnly: true

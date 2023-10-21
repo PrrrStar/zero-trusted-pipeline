@@ -3,6 +3,11 @@ variable "project" {
   description = "Project 이름"
 }
 
+variable "name" {
+  type        = string
+  description = "Bastion 이름"
+}
+
 variable "env" {
   type        = string
   description = "Project environment code"
@@ -69,9 +74,9 @@ variable "region" {
   type = string
 }
 
-variable "type" {
+variable "address_type" {
   type        = string
-  description = "IP Address Type. (Default : EXTERNAL"
+  description = "IP Address Type. (Default : EXTERNAL)"
   default     = "EXTERNAL"
 }
 

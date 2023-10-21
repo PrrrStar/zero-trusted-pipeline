@@ -1,5 +1,5 @@
 resource "google_compute_firewall" "main" {
-  name    = "fw-${var.env}-${var.domain}-allow-${var.identifier}"
+  name    = "fw-${var.env}-${var.domain}-allow--${var.name}"
   project = var.project
   network = var.vpc_name
   allow {

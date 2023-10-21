@@ -1,7 +1,7 @@
 resources:
   - deployment.yaml
   - service.yaml
-namespace: app
+namespace: ops
 configMapGenerator:
   - name: nginx-conf
     files:

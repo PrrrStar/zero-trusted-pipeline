@@ -3,7 +3,6 @@ domain: "devops"
 env: "d"
 region: "asia-northeast3"
 identifier: "231015"
-
 vpc:
   name: "vpc-d-devops-main"
   subnet:
@@ -17,7 +16,6 @@ vpc:
       secondary_ip_pod_range: "10.101.0.0/16"
       secondary_ip_svc_range: "10.102.0.0/20"
       region: "asia-northeast3"
-
 vault:
   machine_type: "e2-small"
   num_instances: 2
@@ -29,7 +27,15 @@ vault:
   storage_region: "asia-northeast2"
   storage_ha_enabled: "true"
   ui_enabled: "true"
-
+bastion:
+  name: "nginx-vault-server"
+  machine_type: "e2-micro"
+  zone: "asia-northeast3-b"
+  vpc_name: "vpc-d-devops-main"
+  subnet_name: "sbn-d-devops-private"
+  source_ranges: ["0.0.0.0/0"]
+  ports: ["80", "443", "22"]
+  address_type: "INTERNAL"
 gke:
   - name: "kc-d-devops-main"
     version: "1.27.3-gke.100"

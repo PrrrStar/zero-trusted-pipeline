@@ -63,6 +63,27 @@ module "vault_server" {
   depends_on = [module.sbn]
 }
 
+module "bastion" {
+  source = "./modules/bastion"
+
+  name                           = local.bastion["name"]
+  domain                         = local.domain
+  env                            = local.env
+  identifier                     = local.identifier
+  project                        = local.project
+  region                         = local.region
+  zone                           = local.bastion["zone"]
+  vpc_name                       = local.bastion["vpc_name"]
+  subnet_name                    = local.bastion["subnet_name"]
+  machine_type                   = local.bastion["machine_type"]
+  source_ranges                  = local.bastion["source_ranges"]
+  ports                          = local.bastion["ports"]
+  address_type                   = local.bastion["address_type"]
+  network_tags                   = ["bastion"]
+  vault_server_primary_address   = "10.100.0.2"
+  vault_server_secondary_address = "10.100.0.3"
+}
+
 module "gke" {
   for_each = { for gke in local.gke : gke["name"] => gke }
 

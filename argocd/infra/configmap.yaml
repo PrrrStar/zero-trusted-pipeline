@@ -16,7 +16,7 @@ data:
       type: oidc
       id: google
       name: Google
-  url: https://argocd.haechi.io
+  url: https://argocd.devops.henesis.io
 ---
 apiVersion: v1
 kind: ConfigMap
