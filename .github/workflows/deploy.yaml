@@ -13,6 +13,9 @@ jobs:
     outputs:
       deploy-env: ${{ steps.version.outputs.deploy-env }}
       version: ${{ github.ref_name }}
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
       - name: Import Secrets
         id: secrets
