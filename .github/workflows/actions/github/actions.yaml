@@ -22,9 +22,7 @@ runs:
     - name: Checkout zero-trusted-pipeline
       uses: actions/checkout@v4
       with:
-        repository: prrrstar/zero-trusted-pipeline
         token: ${{ inputs.github-pat }}
-        path: zero-trusted-pipeline
 
     - name: Set git user name
       run: |

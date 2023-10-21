@@ -27,9 +27,7 @@ runs:
     - name: Checkout zero-trusted-pipeline
       uses: actions/checkout@v4
       with:
-        repository: prrrstar/zero-trusted-pipeline
         token: ${{ inputs.github-pat }}
-        path: zero-trusted-pipeline
 
     - id: auth
       name: Authenticate with Google Cloud
