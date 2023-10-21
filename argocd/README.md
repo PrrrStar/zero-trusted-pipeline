@@ -2,8 +2,8 @@ ArgoCD
 ===
 ## Endpoint
 - https://argocd.devops.henesis.io
-  ![argocd-home.png](argocd-home.png)
-  ![argocd-main.png](argocd-main.png)
+  ![argocd-home.png](../image/argocd-home.png)
+  ![argocd-main.png](../image/argocd-main.png)
 ## Structure
 ```
 apps : ArgoCD Application 을 관리한다.
