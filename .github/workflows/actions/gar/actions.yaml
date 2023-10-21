@@ -1,0 +1,57 @@
+name: commit
+inputs:
+  service-name:
+    required: true
+  version:
+    required: true
+  github-pat:
+    required: true
+
+  gcp-project-id:
+    required: true
+  gcp-service-account:
+    required: true
+  gcp-wip-id:
+    required: true
+  gcp-wip-provider-id:
+    required: true
+  gcp-gar-address:
+    required: true
+
+runs:
+  using: "composite"
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+  steps:
+    - name: Checkout zero-trusted-pipeline
+      uses: actions/checkout@v4
+      with:
+        repository: prrrstar/zero-trusted-pipeline
+        token: ${{ inputs.github-pat }}
+        path: zero-trusted-pipeline
+
+    - id: auth
+      name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        token_format: access_token
+        workload_identity_provider: 'projects/${{ inputs.gcp-project-id }}/locations/global/workloadIdentityPools/${{ inputs.gcp-wip-id }}/providers/${{ inputs.gcp-wip-provider-id }}'
+        service_account: ${{ inputs.gcp-service-account }}
+        access_token_lifetime: 300s
+
+    - name: Login to Artifact Registry
+      uses: docker/login-action@v1
+      with:
+        registry: us-west2-docker.pkg.dev
+        username: oauth2accesstoken
+        password: ${{ steps.auth.outputs.access_token }}
+
+    - id: docker-push-tagged
+      name: Tag Docker image and push to Google Artifact Registry
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: |
+          ${{ inputs.gcp-gar-address }}/${{ inputs.gcp-project-id }}/zero-trusted-pipeline/${{ inputs.service-name }}:${{ inputs.version }}
+          ${{ inputs.gcp-gar-address }}/${{ inputs.gcp-project-id }}/zero-trusted-pipeline/${{ inputs.service-name }}:latest

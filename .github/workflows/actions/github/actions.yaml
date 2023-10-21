@@ -1,0 +1,68 @@
+name: commit
+inputs:
+  deploy-env:
+    required: true
+  version:
+    required: true
+  github-username:
+    required: true
+  github-pat:
+    required: true
+  service-name:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Helm
+      run: |
+        curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      shell: bash
+
+    - name: Checkout zero-trusted-pipeline
+      uses: actions/checkout@v4
+      with:
+        repository: prrrstar/zero-trusted-pipeline
+        token: ${{ inputs.github-pat }}
+        path: zero-trusted-pipeline
+
+    - name: Set git user name
+      run: |
+        git config --global user.email "${{ inputs.github-username }}"
+        git config --global user.name "${{ inputs.github-username }}"
+      shell: bash
+
+    - name: Change version in zero-trusted-pipeline
+      env:
+        VERSION: ${{ inputs.version }}
+        DEPLOY_ENV: ${{ inputs.deploy-env }}
+        SERVICE_NAME: ${{ inputs.service-name }}
+      run: |
+        ROOT=$PWD
+        MODULE_PATH="$(cd "$(dirname "$0")" && pwd)"
+        CHART_PATH="$ROOT/zero-trusted-pipeline/charts"
+
+        cd $CHART_PATH
+
+        git checkout main
+        git pull -r origin main
+
+        for ENV in $DEPLOY_ENV; do
+          if [ ! -f "values/$SERVICE_NAME/values.$ENV.yaml" ]; then
+            echo "values.$ENV.yaml does not exist"
+            continue
+          fi
+          sed -i "s/version:.*/version: $VERSION/g" values/$SERVICE_NAME/values.$ENV.yaml
+          echo "helm template $SERVICE_NAME . --values values/$SERVICE_NAME/values.$ENV.yaml"
+
+          cd $CHART_PATH
+        done
+
+        cd $ROOT/zero-trusted-pipeline
+        git diff
+
+        set +e
+        git commit -am "[DevOps-BOT] Release Version : $VERSION"
+        git push origin main -f
+        set -e
+      shell: bash

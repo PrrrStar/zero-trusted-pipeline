@@ -1,0 +1,39 @@
+name: validator
+inputs:
+  version:
+    required: true
+
+outputs:
+  deploy-env:
+    value: "${{ steps.version.outputs.env_arr }}"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Validate version
+      env:
+        VERSION: "${{ inputs.version }}"
+      id: "version"
+      run: |
+        REGEX_DEV='^(([a-z]*-){0,})?[a-z0-9]{8}$'
+        REGEX_PROD='^(([a-z]*-){0,})?v([0-9]+\.){2}(\*|[0-9]){1,2}$'
+        REGEX_STG='^(([a-z]*-){0,})?v([0-9]+\.){2}(\*|[0-9]+)\-RC+\.[0-9]{1,2}$'
+        REGEX_HOTFIX='^(([a-z]*-){0,})?v([0-9]+\.){2}(\*|[0-9]+)\-hotfix+\.[0-9]{1,2}$'
+
+        if [[ $VERSION =~ $REGEX_DEV || $1 =~ "latest" ]]; then
+            echo "env_arr=dev" >> $GITHUB_OUTPUT
+
+        elif [[ $VERSION =~ $REGEX_STG ]]; then
+            echo "env_arr=stg" >> $GITHUB_OUTPUT
+
+        elif [[ $VERSION =~ $REGEX_PROD ]]; then
+            echo "env_arr=prod" >> $GITHUB_OUTPUT
+
+        elif [[ $VERSION =~ $REGEX_HOTFIX ]]; then
+            echo "env_arr=dev stg prod" >> $GITHUB_OUTPUT
+
+        else
+            echo "ERROR : Unable to validate version: $VERSION"
+            exit 1
+        fi
+      shell: bash
