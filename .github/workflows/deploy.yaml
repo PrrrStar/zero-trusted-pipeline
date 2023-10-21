@@ -26,7 +26,6 @@ jobs:
           roleId: ${{ secrets.VAULT_DEV_ROLE_ID }}
           secretId: ${{ secrets.VAULT_DEV_SECRET_ID }}
           secrets: |
-            github/data/zero-trusted-pipeline GCP_SA_D_DEVOPS_DEVOPS_DEPLOY | GCP_SA_D_DEVOPS_DEVOPS_DEPLOY ;
             github/data/zero-trusted-pipeline GITHUB_USERNAME | GITHUB_USERNAME ;
             github/data/zero-trusted-pipeline GITHUB_PAT | GITHUB_PAT ;
             github/data/zero-trusted-pipeline GCP_PROJECT_ID | GCP_PROJECT_ID ;
