@@ -23,8 +23,8 @@ jobs:
           namespace: ${{ secrets.VAULT_NAMESPACE }}
           #caCertificate: ${{ secrets.VAULT_CA_CERT }}
           jwtTtl: 300
-          roleId: ${{ secrets.VAULT_DEV_ROLE_ID }}
-          secretId: ${{ secrets.VAULT_DEV_SECRET_ID }}
+          roleId: ${{ secrets.VAULT_ROLE_ID }}
+          secretId: ${{ secrets.VAULT_SECRET_ID }}
           secrets: |
             github/data/zero-trusted-pipeline GITHUB_USERNAME | GITHUB_USERNAME ;
             github/data/zero-trusted-pipeline GITHUB_PAT | GITHUB_PAT ;
