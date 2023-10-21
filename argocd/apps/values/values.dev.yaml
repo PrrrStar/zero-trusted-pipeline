@@ -15,6 +15,6 @@ source:
 applications:
   iise-nginx:
     enabled: true
-    chartPath: charts/iise
+    chartPath: charts
     enableAutoSync: true
-    valueFilePath: values.dev.yaml
+    valueFilePath: values/iise/values.dev.yaml
