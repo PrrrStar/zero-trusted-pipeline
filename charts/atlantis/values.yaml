@@ -33,7 +33,7 @@ ingress:
                 name: atlantis
                 port:
                   number: 80
-            path: /events
+            path: /
             pathType: Prefix
 resources:
   limits:
