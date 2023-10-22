@@ -37,7 +37,7 @@ spec:
             - name: REPO_ALLOWLIST
               value: {{ .Values.env.allowRepository }}
             - name: PORT
-              value: "4141"
+              value: 4141
           volumeMounts:
             - name: {{ .Values.name }}
               mountPath: /atlantis-data
