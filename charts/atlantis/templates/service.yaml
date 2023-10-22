@@ -13,4 +13,4 @@ spec:
       targetPort: 4141
   selector:
     app: {{ .Values.name }}
-  type: ClusterIP
+  type: NodePort
