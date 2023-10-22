@@ -12,7 +12,7 @@ vault:
   secrets:
     - name: atlantis
       kv:
-        GH_USER: "GH_USER"
+        ATLANTIS_GH_USER: "ATLANTIS_GH_USER"
         ATLANTIS_GH_TOKEN: "ATLANTIS_GH_TOKEN"
         ATLANTIS_GH_WEBHOOK_SECRET: "ATLANTIS_GH_WEBHOOK_SECRET"
 serviceAccount:
