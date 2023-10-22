@@ -27,13 +27,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: ATLANTIS_DATA_DIR
-              value: /atlantis-data
+              value: {{ .Values.env.ATLANTIS_DATA_DIR }}
             - name: ATLANTIS_PORT
-              value: "4141"
-            - name: URL
-              value: {{ .Values.env.url }}
-            - name: REPO_ALLOWLIST
-              value: {{ .Values.env.allowRepository }}
+              value: {{ .Values.env.ATLANTIS_PORT }}
+            - name: ATLANTIS_URL
+              value: {{ .Values.env.ATLANTIS_URL }}
+            - name: ATLANTIS_REPO_ALLOWLIST
+              value: {{ .Values.env.ATLANTIS_REPO_ALLOWLIST }}
           envFrom:
             {{- range $val := .Values.vault.secrets }}
             {{- if $val.name }}
