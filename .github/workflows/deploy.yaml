@@ -33,8 +33,7 @@ jobs:
             github/data/zero-trusted-pipeline GITHUB_PAT | GITHUB_PAT ;
             github/data/zero-trusted-pipeline GCP_PROJECT_ID | GCP_PROJECT_ID ;
             github/data/zero-trusted-pipeline GCP_SA_D_DEVOPS_DEPLOY | GCP_SA_D_DEVOPS_DEPLOY ;
-            github/data/zero-trusted-pipeline GCP_WIP_ID | GCP_WIP_ID ;
-            github/data/zero-trusted-pipeline GCP_WIP_PROVIDER_ID | GCP_WIP_PROVIDER_ID ;
+            github/data/zero-trusted-pipeline GCP_WORKLOAD_IDENTITY_PROVIDER | GCP_WORKLOAD_IDENTITY_PROVIDER ;
             github/data/zero-trusted-pipeline GCP_GAR_ADDRESS | GCP_GAR_ADDRESS ;
 
       - name: Checkout zero-trusted-pipeline
@@ -58,8 +57,7 @@ jobs:
 
           gcp-project-id: ${{ env.GCP_PROJECT_ID }}
           gcp-service-account: ${{ env.GCP_SA_D_DEVOPS_DEPLOY }}
-          gcp-wip-id: ${{ env.GCP_WIP_ID }}
-          gcp-wip-provider-id: ${{ env.GCP_WIP_PROVIDER_ID }}
+          gcp-workload-identity-provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           gcp-gar-address: ${{ env.GCP_GAR_ADDRESS }}
 
       - name: Update the service version in charts

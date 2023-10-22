@@ -11,9 +11,7 @@ inputs:
     required: true
   gcp-service-account:
     required: true
-  gcp-wip-id:
-    required: true
-  gcp-wip-provider-id:
+  gcp-workload-identity-provider:
     required: true
   gcp-gar-address:
     required: true
@@ -31,14 +29,14 @@ runs:
       uses: google-github-actions/auth@v1
       with:
         token_format: access_token
-        workload_identity_provider: 'projects/${{ inputs.gcp-project-id }}/locations/global/workloadIdentityPools/${{ inputs.gcp-wip-id }}/providers/${{ inputs.gcp-wip-provider-id }}'
+        workload_identity_provider: ${{ inputs.gcp-workload-identity-provider }}
         service_account: ${{ inputs.gcp-service-account }}
         access_token_lifetime: 300s
 
     - name: Login to Artifact Registry
       uses: docker/login-action@v1
       with:
-        registry: us-west2-docker.pkg.dev
+        registry: ${{ inputs.gcp-gar-address }}
         username: oauth2accesstoken
         password: ${{ steps.auth.outputs.access_token }}
 
