@@ -74,7 +74,9 @@ spec:
       terminationGracePeriodSeconds: 30
       serviceAccountName: {{ .Values.name }}
       dnsPolicy: ClusterFirst
-      securityContext: {}
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
       schedulerName: default-scheduler
   strategy:
     type: Recreate
