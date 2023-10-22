@@ -23,8 +23,7 @@ pvc:
   storageClass: standard
   size: 20Gi
 ingress:
-  class: external
-  annotations: {}
+  name: ing-d-devops-atlantis
   rules:
     - host: atlantis.devops.henesis.io
       http:

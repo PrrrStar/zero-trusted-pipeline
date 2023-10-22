@@ -1,15 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    ingress.kubernetes.io/service-upstream: "true"
   labels:
     app: {{ .Values.name }}
-  name: {{ .Values.name }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.ingress.name }}
+  namespace: app
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: {{ .Values.ingress.name | quote }}
+    spec.ingressClassName: "gce"
 spec:
-  ingressClassName: {{ .Values.ingress.class }}
   {{- with .Values.ingress.rules }}
   rules:
-    {{- toYaml . | nindent 4 }}
+  {{- toYaml . | nindent 4 }}
   {{- end }}
