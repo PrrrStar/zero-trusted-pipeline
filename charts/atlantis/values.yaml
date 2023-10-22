@@ -3,7 +3,7 @@ replicas: 2
 image:
   repository: asia-northeast3-docker.pkg.dev/prj-d-devops-402107/zero-trusted-pipeline/atlantis
   pullPolicy: IfNotPresent
-  tag: "v0.0.3"
+  tag: "v0.0.4"
 env:
   ATLANTIS_URL: "http://atlantis.devops.henesis.io"
   ATLANTIS_PORT: "4141"
