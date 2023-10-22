@@ -1,4 +1,5 @@
 name: atlantis
+replicas: 2
 image:
   repository: asia-northeast3-docker.pkg.dev/prj-d-devops-402107/zero-trusted-pipeline/atlantis
   pullPolicy: IfNotPresent
