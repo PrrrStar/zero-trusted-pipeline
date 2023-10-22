@@ -15,6 +15,11 @@ source:
 applications:
   iise-nginx:
     enabled: true
-    chartPath: charts
+    chartPath: charts/iise
     enableAutoSync: true
     valueFilePath: values/iise/values.dev.yaml
+  atlantis:
+    enabled: true
+    chartPath: charts/atlantis
+    enableAutoSync: true
+    valueFilePath: values.yaml

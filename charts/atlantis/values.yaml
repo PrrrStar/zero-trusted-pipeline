@@ -1,0 +1,38 @@
+name: atlantis
+image:
+  repository: asia-northeast3-docker.pkg.dev/prj-d-devops-402107/zero-trusted-pipeline/atlantis
+  pullPolicy: IfNotPresent
+  tag: "latest"
+env:
+  ghUser: prrrstar
+  ghToken: ""
+  ghWebhookSecret: "devops"
+  url: http://atlantis.devops.henesis.io
+  allowRepository: |
+    github.com/PrrrStar/zero-trusted-pipeline
+serviceAccount:
+  annotations:
+    iam.gke.io/gcp-service-account: "sa-d-devops-deploy@prj-d-devops-402107.iam.gserviceaccount.com"
+pvc:
+  storageClass: gp3
+  size: 20Gi
+ingress:
+  class: external
+  annotations: {}
+  rules:
+    - host: atlantis.devops.henesis.io
+      http:
+        paths:
+          - backend:
+              service:
+                name: atlantis
+                port:
+                  number: 80
+            path: /events
+            pathType: Prefix
+resources:
+  limits:
+    memory: 500Mi
+  requests:
+    cpu: 100m
+    memory: 500Mi

@@ -1,7 +1,7 @@
 resource "google_artifact_registry_repository" "registry" {
   project       = local.project
   location      = "asia-northeast3"
-  repository_id = "devops-infra"
+  repository_id = "zero-trusted-pipeline"
   format        = "docker"
   docker_config {
     immutable_tags = true
