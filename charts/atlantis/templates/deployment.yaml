@@ -12,6 +12,8 @@ spec:
       app: {{ .Values.name }}
   template:
     metadata:
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
       labels:
         app: {{ .Values.name }}
     spec:
@@ -24,18 +26,21 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: GH_USER
-              value: {{ .Values.env.ghUser }}
-            - name: GH_TOKEN
-              value: {{ .Values.env.ghToken }}
-            - name: GH_WEBHOOK_SECRET
-              value: {{ .Values.env.ghWebhookSecret }}
             - name: ATLANTIS_DATA_DIR
               value: /atlantis-data
+            - name: ATLANTIS_PORT
+              value: "4141"
             - name: URL
               value: {{ .Values.env.url }}
             - name: REPO_ALLOWLIST
               value: {{ .Values.env.allowRepository }}
+          envFrom:
+            {{- range $val := .Values.vault.secrets }}
+            {{- if $val.name }}
+            - secretRef:
+                name: {{ $val.name }}-secret
+            {{- end }}
+          {{- end }}
           volumeMounts:
             - name: {{ .Values.name }}
               mountPath: /atlantis-data

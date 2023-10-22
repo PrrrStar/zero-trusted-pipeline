@@ -4,12 +4,17 @@ image:
   pullPolicy: IfNotPresent
   tag: "latest"
 env:
-  ghUser: prrrstar
-  ghToken: ""
-  ghWebhookSecret: "devops"
   url: http://atlantis.devops.henesis.io
   allowRepository: |
     github.com/PrrrStar/zero-trusted-pipeline
+vault:
+  env: dev
+  secrets:
+    - name: atlantis
+      kv:
+        GH_USER: "GH_USER"
+        GH_TOKEN: "GH_TOKEN"
+        GH_WEBHOOK_SECRET: "GH_WEBHOOK_SECRET"
 serviceAccount:
   annotations:
     iam.gke.io/gcp-service-account: "sa-d-devops-deploy@prj-d-devops-402107.iam.gserviceaccount.com"
