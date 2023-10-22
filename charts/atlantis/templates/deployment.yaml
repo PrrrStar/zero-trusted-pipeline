@@ -46,7 +46,7 @@ spec:
           livenessProbe:
             httpGet:
               path: "/"
-              port: "4141"
+              port: 4141
               scheme: HTTP
             initialDelaySeconds: 20
             timeoutSeconds: 3
@@ -56,7 +56,7 @@ spec:
           readinessProbe:
             httpGet:
               path: "/"
-              port: "4141"
+              port: 4141
               scheme: HTTP
             initialDelaySeconds: 20
             timeoutSeconds: 1
