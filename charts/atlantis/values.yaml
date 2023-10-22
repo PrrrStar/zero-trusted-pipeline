@@ -2,7 +2,7 @@ name: atlantis
 image:
   repository: asia-northeast3-docker.pkg.dev/prj-d-devops-402107/zero-trusted-pipeline/atlantis
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "v0.0.2-hotfix.0"
 env:
   ATLANTIS_URL: "http://atlantis.devops.henesis.io"
   ATLANTIS_PORT: "4141"
