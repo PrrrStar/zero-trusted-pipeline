@@ -38,9 +38,9 @@ runs:
       run: |
         ROOT=$PWD
         MODULE_PATH="$(cd "$(dirname "$0")" && pwd)"
-        CHART_PATH="$ROOT/zero-trusted-pipeline/charts"
+        TARGET_CHART_PATH="$ROOT/zero-trusted-pipeline/charts/$SERVICE_NAME"
 
-        cd $CHART_PATH
+        cd $TARGET_CHART_PATH
 
         git checkout main
         git pull -r origin main
@@ -53,14 +53,14 @@ runs:
           sed -i "s/version:.*/version: $VERSION/g" values/$SERVICE_NAME/values.$ENV.yaml
           echo "helm template $SERVICE_NAME . --values values/$SERVICE_NAME/values.$ENV.yaml"
 
-          cd $CHART_PATH
+          cd $TARGET_CHART_PATH
         done
 
         cd $ROOT/zero-trusted-pipeline
         git diff
 
         set +e
-        git commit -am "[DevOps-BOT] Release Version : $VERSION"
+        git commit -am "[Release] Version : $VERSION"
         git push origin main -f
         set -e
       shell: bash

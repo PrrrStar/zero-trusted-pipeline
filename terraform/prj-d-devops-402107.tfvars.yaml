@@ -44,7 +44,7 @@ gke:
     sbn_region: "asia-northeast1"
     nodepool:
       - name: "np-d-devops-main"
-        machine_type: "e2-medium"
+        machine_type: "e2-standard-2"
         size: 1
         spot: true
         auto_repair: true
