@@ -14,7 +14,7 @@ serviceAccount:
   annotations:
     iam.gke.io/gcp-service-account: "sa-d-devops-deploy@prj-d-devops-402107.iam.gserviceaccount.com"
 pvc:
-  storageClass: gp3
+  storageClass: standard
   size: 20Gi
 ingress:
   class: external
