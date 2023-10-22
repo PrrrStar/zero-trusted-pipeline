@@ -13,8 +13,8 @@ vault:
     - name: atlantis
       kv:
         GH_USER: "GH_USER"
-        GH_TOKEN: "GH_TOKEN"
-        GH_WEBHOOK_SECRET: "GH_WEBHOOK_SECRET"
+        ATLANTIS_GH_TOKEN: "ATLANTIS_GH_TOKEN"
+        ATLANTIS_GH_WEBHOOK_SECRET: "ATLANTIS_GH_WEBHOOK_SECRET"
 serviceAccount:
   annotations:
     iam.gke.io/gcp-service-account: "sa-d-devops-deploy@prj-d-devops-402107.iam.gserviceaccount.com"
