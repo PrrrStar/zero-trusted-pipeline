@@ -7,8 +7,8 @@ env:
   ATLANTIS_URL: "http://atlantis.devops.henesis.io"
   ATLANTIS_PORT: "4141"
   ATLANTIS_DATA_DIR: "/atlantis-data"
-  ATLANTIS_REPO_ALLOWLIST: |
-    github.com/PrrrStar/zero-trusted-pipeline
+  ATLANTIS_REPO_ALLOWLIST:
+    - "github.com/PrrrStar/zero-trusted-pipeline"
 vault:
   env: dev
   secrets:
