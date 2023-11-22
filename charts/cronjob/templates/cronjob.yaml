@@ -16,4 +16,5 @@ spec:
                 - /bin/sh
                 - -c
                 - date; echo KuBeDaangn
+                - sleep 60;
           restartPolicy: OnFailure
