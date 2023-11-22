@@ -1,3 +1,2 @@
 name: KuBeDaangn
-replicas: 2
-schedule: "40 * * * 1"
+schedule: "* * * * 1"
