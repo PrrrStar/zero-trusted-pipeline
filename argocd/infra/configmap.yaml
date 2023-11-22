@@ -19,18 +19,31 @@ data:
   url: https://argocd.devops.henesis.io
   resource.customizations.actions.batch_CronJob: |
     discovery.lua: |
-      local os = require("os")
-      job = {}
-      job.apiVersion = "batch/v1"
-      job.kind = "Job"
-      job.metadata = {}
-      job.metadata.name = cronjob.spec.jobTemplate.metadata.name .. os.date("!%Y%m%d%H%M")
-      job.spec = {}
-      job.spec = cronjob.spec.jobTemplate.spec
-      -- optional
-      job.metadata.annotations = {}
-      job.metadata.annotations["kubectl.kubernetes.io/createdAt"] = os.date("!%Y-%m-%dT%XZ")
-      return job
+      actions = {}
+      actions["suspend"] = {["disabled"] = true}
+      actions["resume"] = {["disabled"] = true}
+
+      local suspend = false
+      if obj.spec.suspend ~= nil then
+          suspend = obj.spec.suspend
+      end
+      if suspend then
+          actions["resume"]["disabled"] = false
+      else
+          actions["suspend"]["disabled"] = false
+      end
+      return actions
+    definitions:
+    - name: suspend
+      action.lua: |
+        obj.spec.suspend = true
+        return obj
+    - name: resume
+      action.lua: |
+        if obj.spec.suspend ~= nil and obj.spec.suspend then
+            obj.spec.suspend = false
+        end
+        return obj
 ---
 apiVersion: v1
 kind: ConfigMap

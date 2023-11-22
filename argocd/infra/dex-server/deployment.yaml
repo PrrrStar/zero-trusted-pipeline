@@ -50,7 +50,7 @@ spec:
             - -n
             - /usr/local/bin/argocd
             - /shared/argocd-dex
-          image: quay.io/argoproj/argocd:v2.9.2
+          image: quay.io/argoproj/argocd:v2.8.4
           imagePullPolicy: Always
           name: copyutil
           volumeMounts:

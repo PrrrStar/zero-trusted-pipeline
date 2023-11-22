@@ -63,7 +63,7 @@ spec:
             - mountPath: /custom-tools
               name: custom-tools
         - name: copyutil
-          image: quay.io/argoproj/argocd:v2.9.2
+          image: quay.io/argoproj/argocd:v2.8.4
           imagePullPolicy: IfNotPresent
           command:
             - /bin/cp
@@ -89,7 +89,7 @@ spec:
         - name: avp-helm
           command:
             - /var/run/argocd/argocd-cmp-server
-          image: quay.io/argoproj/argocd:v2.9.2
+          image: quay.io/argoproj/argocd:v2.8.4
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
@@ -116,7 +116,7 @@ spec:
         - name: avp-kustomize
           command:
             - /var/run/argocd/argocd-cmp-server
-          image: quay.io/argoproj/argocd:v2.9.2
+          image: quay.io/argoproj/argocd:v2.8.4
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
@@ -143,7 +143,7 @@ spec:
         - name: avp
           command:
             - /var/run/argocd/argocd-cmp-server
-          image: quay.io/argoproj/argocd:v2.9.2
+          image: quay.io/argoproj/argocd:v2.8.4
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
@@ -297,7 +297,7 @@ spec:
               value: /helm-working-dir
             - name: HELM_DATA_HOME
               value: /helm-working-dir
-          image: quay.io/argoproj/argocd:v2.9.2
+          image: quay.io/argoproj/argocd:v2.8.4
           imagePullPolicy: Always
           livenessProbe:
             failureThreshold: 3
