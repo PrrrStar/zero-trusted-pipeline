@@ -2,6 +2,10 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Values.name }}
+  annotations:
+    ku: ku
+    be: be
+    daangn: daangn
 spec:
   schedule: {{ .Values.schedule }}
   jobTemplate:
@@ -16,5 +20,4 @@ spec:
                 - /bin/sh
                 - -c
                 - date; echo KuBeDaangn
-                - sleep 60;
           restartPolicy: OnFailure
