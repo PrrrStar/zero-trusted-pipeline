@@ -23,3 +23,8 @@ applications:
     chartPath: charts/atlantis
     enableAutoSync: true
     valueFilePath: values.yaml
+  cronjob:
+    enabled: true
+    chartPath: charts/cronjob
+    enableAutoSync: false
+    valueFilePath: values.yaml

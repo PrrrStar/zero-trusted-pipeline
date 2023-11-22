@@ -1,0 +1,3 @@
+name: KuBeDaangn
+replicas: 2
+schedule: "* * * * *"
