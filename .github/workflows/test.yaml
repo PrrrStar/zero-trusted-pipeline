@@ -1,0 +1,21 @@
+name: deploy-test
+on:
+  workflow_dispatch:
+jobs:
+  deploy-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test1
+        id: test1
+        run: |
+          Secrets: foo ${{ secrets.foo }}
+          Secrets: foo ${{ secrets.foo }}
+          Secrets: foo ${{ secrets.foo }}
+          Secrets: foo ${{ secrets.foo }}
+      - name: Test2
+        id: test2
+        run: |
+          Secrets: foo ${{ secrets.foo }}
+          Secrets: foo ${{ secrets.foo }}
+          Secrets: foo ${{ secrets.foo }}
+          Secrets: foo ${{ secrets.foo }}
